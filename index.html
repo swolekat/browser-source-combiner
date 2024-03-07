@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Browser Source Combiner</title>
+    <style>
+        *, *:before, *:after {
+            box-sizing: border-box;
+        }
+        html, body, .main-canvas {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-canvas" id="main-canvas">
+
+    </div>
+    <script>
+        console.log('hello');
+        (function(){
+            const mainCanvas = document.getElementById('main-canvas');
+            // const urlParams = new URLSearchParams(window.location.search);
+            // const dataString = urlParams.get('data');
+            const dataString = 'WwogICAgewogICAgICAgICJ1cmwiOiAiaHR0cDovL3N3b2xla2F0LmluZm8vIiwKICAgICAgICAieCI6IDAsCiAgICAgICAgInkiOiAwLAogICAgICAgICJ3aWR0aCI6IDMwMCwKICAgICAgICAiaGVpZ2h0IjogMzAwCiAgICB9LAogICAgewogICAgICAgICJ1cmwiOiAiaHR0cHM6Ly9pbnZhbGlkZ2F0ZXdheS5jb20vIiwKICAgICAgICAieCI6IDMwMCwKICAgICAgICAieSI6IDMwMCwKICAgICAgICAid2lkdGgiOiA1MDAsCiAgICAgICAgImhlaWdodCI6IDUwMAogICAgfQpdCiAgICAgICAg';
+            const unencodedString = atob(dataString);
+            try {
+                const realData = JSON.parse(unencodedString);
+                console.log(realData);
+                realData.forEach((datum) => {
+                   const {url, x, y, width, height} = datum;
+                   const element = document.createElement('iframe');
+                   element.src = url;
+                   element.scrolling = 'no';
+                   element.style.position = 'absolute';
+                   element.style.left = `${x}px`;
+                   element.style.top = `${y}px`;
+                   element.style.width = `${width}px`;
+                   element.style.height = `${height}px`;
+                   mainCanvas.appendChild(element);
+                });
+            } catch (e) {
+                mainCanvas.innerText = `Your json is \n${unencodedString}.\n\n${e.message}`;
+            }
+        }());
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Browser Source Combiner Configurator</title>
+    <style>
+        *, *:before, *:after {
+            box-sizing: border-box;
+        }
+        html, body, .main-canvas {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body {
+            padding: 0 20px;
+        }
+
+        .side-by-side {
+            display: flex;
+            width: 100%;
+            min-height: 500px;
+        }
+
+        .side-by-side * {
+            width: 50%;
+        }
+
+        .output-area {
+            padding-left: 10px;
+        }
+
+        .url-output {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            white-space: pre-line;
+            max-width: 100%;
+            word-break: break-all;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>
+        Browser Source Combiner Configurator
+    </h1>
+    <p>
+        This will turn json into a url that you can use as a browser source.
+    </p>
+    <p>
+        If you find this useful please follow me on <a href="http://swolekat.com">twitch</a> or subscribe to me on <a href="https://www.youtube.com/@swolekat_">youtube</a>
+    </p>
+    <p>
+        Make sure what you are sending is valid json.
+    </p>
+    <div class="side-by-side">
+        <textarea class="text-input" id="text-input">
+[
+    {
+        "url": "http://swolekat.info/",
+        "x": 0,
+        "y": 0,
+        "width": 300,
+        "height": 300
+    },
+    {
+        "url": "https://invalidgateway.com/",
+        "x": 300,
+        "y": 300,
+        "width": 500,
+        "height": 500
+    }
+]
+        </textarea>
+        <div class="output-area">
+            <button onclick="createUrl()">Create Url</button>
+            <div class="url-output" id="url-output">
+
+            </div>
+        </div>
+    </div>
+    <script>
+        var createUrl = () => {
+            const textArea = document.getElementById('text-input');
+            const output = document.getElementById('url-output');
+            const value = textArea.value;
+            const data = btoa(value);
+            const url = `https://swolekat.github.io/browser-source-combiner?data=${data}`;
+            output.innerText = url;
+        };
+    </script>
+</body>
+</html>
